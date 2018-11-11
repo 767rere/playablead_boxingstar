@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Include meta tag to ensure proper rendering and touch zooming -->
+	<meta name="viewport" content="height=device-height, initial-scale=1">
+
+	<!-- Include jQuery Mobile stylesheets -->
+	<link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+
+	<!-- Include the jQuery library -->
+	<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+	<!-- Include the jQuery Mobile library -->
+	<script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <title>videotest</title>
+
+     <style type="text/css">
+     	*{
+     		margin: 0;
+     		padding: 0;
+     	}
+     	html, body{
+        overflow: hidden;
+     	}
+     	.container{
+     		width: auto;
+     		height: 100%; //이거 조절
+     		margin: 0 auto;
+     	}
+      .container_event{
+     		width: 100%;
+     		height: 100%; //이거 조절
+     		margin: 0 auto;
+      }
+     	.video{
+     		width: auto;
+     		height: 100%;
+     	}
+     	.draggable{
+     		width: 100%;
+     		height: 100%;
+     	}
+      .appdown{
+        /*
+        -ms-transform: scale(1, 1);
+        -webkit-transform: scale(1, 1);
+        transform: scale(1, 1);
+        */
+      }
+     </style>
+
+    <script type = 'text/javascript'>
+
+      var video_Num = 0;
+      var play_Num = 0;
+
+    	var eventFunc = {
+    		root : this,
+   			target : null,
+        targetv : null,
+   			draggable : null,
+   			init : function(){
+   				this.draggable.each(function(k, e){
+   					console.log(e);
+   				})
+   			},
+   			//target은 이벤트 주체가 되는 비디오를 말함
+    		targetReset : function(){
+    			this.targetv = null;
+    		},
+    		targetPause : function(){
+    			$(this.targetv).get(0).pause();
+    		},
+    		targetPlay : function(){
+    			$(this.targetv).get(0).play();
+    		},
+    		targetPlayAndPause : function(){
+    			var pause = $(this.targetv).get(0).paused;
+    			if(!pause){
+    				this.targetPause();
+    			}else{
+    				this.targetPlay();
+    			}
+    		}
+    	};
+
+		$(document).ready(function(){
+			//eventFunc
+			var target = $('.container_event');
+      var targetv = $('video');
+			var draggable = $('.draggable');
+      var onlytap = true;
+			eventFunc.target = target; //이벤트 주체
+      eventFunc.targetv = targetv; //이벤트 주체 -> 여기서는 비디오
+			eventFunc.draggable = draggable; //움직일 놈들
+			eventFunc.init(); //구현하다 말음
+			eventFunc.targetPlay(); //동영상 시작\\\\\\
+			//eventFunc.targetPauseTimer(eventFunc, 3000); //3초후 멈춤
+			//swipe event
+
+      if( eventFunc.targetPlay() )
+      {
+        targetv.document.exitFullscreen = false;
+      }
+
+
+			target.on('swipeleft',function(){
+        console.log('swipeleft');
+        onlytap = false;
+			});
+			target.on('swiperight',function(){
+        console.log('swiperight');
+        onlytap = false;
+
+        if(video_Num == 1)
+        {
+          console.log('swiperight on!');
+            video_Num = 2;
+        }
+			});
+			target.on('swipeup',function(){
+        console.log('swipeup');
+        onlytap = false;
+
+        if(video_Num == 3)
+        {
+          console.log('swipeup on!');
+
+            video_Num = 4;
+        }
+			});
+			target.on('swipedown',function(){
+        console.log('swipedown');
+        onlytap = false;
+			});
+			target.on('taphold',function(){
+        console.log('taphold');
+        onlytap = false;
+			});
+			//누를때마다 재생, 멈춤
+			target.on('tap',function(){
+          if(onlytap)
+          {
+            console.log('tap');
+            if( video_Num == 0 )
+            {
+              video.play();
+              video_Num = 1;
+              play_Num = 0;
+            }
+          }
+          else {
+            onlytap = true;
+          }
+        });
+
+
+        var video = document.getElementById("video");
+
+        var video_Array = new Array();
+
+        video_Array[0] = "playable_vertical_1(1).mp4";
+        video_Array[1] = "playable_vertical_1(2).mp4";
+        video_Array[2] = "playable_vertical_1(3).mp4";
+        video_Array[3] = "playable_vertical_1(4).mp4";
+        video_Array[4] = "playable_vertical_1(5).mp4";
+        video_Array[5] = "playable_vertical_1(6).mp4";
+
+        var bnts = document.getElementsByClassName('appdown');
+        var bnt = bnts.item(0);
+
+        var button_size = true;
+        var button_x = 1;
+        var button_y = 1;
+
+        bnt.style.display = "none";
+
+        document.exitFullscreen = false;
+
+
+      if(video != null) {
+
+        video.addEventListener("timeupdate", function() {
+
+          console.log('video_Num : ' + video_Num);
+
+          if(video_Num == 1)
+          {
+            document.getElementById("video").addEventListener('ended', function(e)
+            {
+              document.getElementById("video").setAttribute('src',video_Array[video_Num]);
+              document.getElementById("video").setAttribute('loop','loop');
+              video.play();
+            });
+          }
+          else if(video_Num == 2)
+          {
+            if( video_Num != play_Num)
+            {
+              document.getElementById("video").setAttribute('src',video_Array[video_Num]);
+              document.getElementById("video").removeAttribute('loop');
+              video.play();
+              video_Num = 3;
+              play_Num = video_Num;
+            }
+          }
+          else if(video_Num == 3)
+          {
+            document.getElementById("video").addEventListener('ended', function(e)
+            {
+              document.getElementById("video").setAttribute('src',video_Array[video_Num]);
+              document.getElementById("video").setAttribute('loop','loop');
+              video.play();
+            });
+          }
+          else if(video_Num == 4)
+          {
+            if( video_Num != play_Num)
+            {
+              document.getElementById("video").setAttribute('src',video_Array[video_Num]);
+              document.getElementById("video").removeAttribute('loop');
+              video.play();
+              video_Num = 5;
+              play_Num = video_Num;
+            }
+          }
+          else if(video_Num == 5)
+          {
+            document.getElementById("video").addEventListener('ended', function(e)
+            {
+              document.getElementById("video").setAttribute('src',video_Array[video_Num]);
+              document.getElementById("video").setAttribute('loop','loop');
+              video.play();
+
+              bnt.style.display = "block";
+              document.getElementById("appdown_bnt").removeAttribute("class");
+            });
+          }
+
+          //console.log(video.currentTime + "   Now : " + stepNow + "  step1 : " + step1 + "  step2 : " + step2 + "  step3 : " + step3);
+
+          });
+
+          setInterval(function(){
+
+            //alert('0.1초가 지났어요');
+            //console.log('0.01초가 지났어요');
+
+            console.log('on');
+
+            if(video_Num == 5)
+            {
+              if(button_size == true)
+              {
+                console.log('button_size : ' + button_size);
+
+                console.log('button_x : ' + button_x);
+
+                button_x -= 0.001;
+                button_y -= 0.001;
+                //bnt.style.scaleX = button_x;
+                //bnt.style.scaleY = button_y;
+                bnt.style.transform = "scale(" + button_x + "," + button_y +")";
+                //bnt.setAttribute('scaleY', button_y);
+
+                if(button_x < 0.99)
+                {
+                  button_size = false;
+                }
+              }
+              else if(button_size == false)
+              {
+                console.log('button_size : ' + button_size);
+
+                console.log('button_x : ' + button_x);
+
+                button_x += 0.001;
+                button_y += 0.001;
+                //bnt.style.scaleX = button_x;
+                //bnt.style.scaleY = button_y;
+                bnt.style.transform = "scale(" + button_x + "," + button_y +")";
+                //bnt.setAttribute('scaleX', button_x);
+                //bnt.setAttribute('scaleY', button_y);
+
+                if(button_x > 1.0)
+                {
+                  button_size = true;
+                }
+              }
+            }
+          },50);
+        }
+		});
+	//스와이프 이벤트 추가 -> 따로 js로 뺄 것
+	//커브드 스와이프 구현하려면 손대야됨 아니면 볼 필요 없음
+	(function() {
+	// initializes touch and scroll events
+		var supportTouch = $.support.touch,
+			scrollEvent = "touchmove scroll",
+			touchStartEvent = supportTouch ? "touchstart" : "mousedown",
+			touchStopEvent = supportTouch ? "touchend" : "mouseup",
+			touchMoveEvent = supportTouch ? "touchmove" : "mousemove";
+	 // handles swipeup and swipedown
+		$.event.special.swipeupdown = {
+			setup: function() {
+				var thisObject = this;
+				var $this = $(thisObject);
+
+
+				$this.bind(touchStartEvent, function(event) {
+					var data = event.originalEvent.touches?event.originalEvent.touches[ 0 ]:event,
+					start = {
+						time: (new Date).getTime(),
+						coords: [ data.pageX, data.pageY ],
+						origin: $(event.target)
+					},
+					stop;
+
+					function moveHandler(event) {
+						if (!start) {
+							event.preventDefault();//return;
+						}
+
+						var data = event.originalEvent.touches?event.originalEvent.touches[ 0 ]:event;
+						stop = {
+							time: (new Date).getTime(),
+							coords: [ data.pageX, data.pageY ]
+						};
+
+						// prevent scrolling
+            //console.log("start : " + "x=" + start.coords[0] + "/ y=" + start.coords[1] +  "\n stop : " + " x=" + stop.coords[0] + " / y=" + stop.coords[1]);
+
+						if (Math.abs(start.coords[1] - stop.coords[1]) < 30 && Math.abs(start.coords[0] - stop.coords[0]) < 30) {
+							return false;
+            }
+          }
+
+					$this.bind(touchMoveEvent, moveHandler).one(touchStopEvent, function(event) {
+						$this.unbind(touchMoveEvent, moveHandler);
+						if (start && stop) {
+
+              //console.log('x : ' + Math.abs(start.coords[0] - stop.coords[0]) + '  y : ' + Math.abs(start.coords[1] - stop.coords[1]));
+
+              if (stop.time - start.time < 2000) {
+
+                if(Math.abs(start.coords[1] - stop.coords[1]) > Math.abs(start.coords[0] - stop.coords[0])) {
+                  start.origin.trigger("swipeupdown").trigger(start.coords[1] > stop.coords[1] ? "swipeup" : "swipedown");
+                }
+                else if(Math.abs(start.coords[1] - stop.coords[1]) <	Math.abs(start.coords[0] - stop.coords[0])) {
+                  if(start.coords[1] > stop.coords[1]) {
+                    start.origin.trigger("swipeupdown").trigger(start.coords[0] > stop.coords[0] ? "swipeleft" : "swiperight");
+                  }
+                }
+                else {
+                  return false;
+                }
+              }
+						}
+
+						start = stop = undefined;
+					});
+				});
+			}
+		};
+
+		//Adds the events to the jQuery events special collection
+		$.each({
+			swipedown: "swipeupdown",
+			swipeup: "swipeupdown"
+		}, function(event, sourceEvent){
+			$.event.special[event] = {
+				setup: function(){
+					$(this).bind(sourceEvent, $.noop);
+				}
+			};
+		});
+	})();
+	//모바일에서 jquery ui를 사용하기 위함
+	!function(a){function f(a,b){if(!(a.originalEvent.touches.length>1)){a.preventDefault();var c=a.originalEvent.changedTouches[0],d=document.createEvent("MouseEvents");d.initMouseEvent(b,!0,!0,window,1,c.screenX,c.screenY,c.clientX,c.clientY,!1,!1,!1,!1,0,null),a.target.dispatchEvent(d)}}if(a.support.touch="ontouchend"in document,a.support.touch){var e,b=a.ui.mouse.prototype,c=b._mouseInit,d=b._mouseDestroy;b._touchStart=function(a){var b=this;!e&&b._mouseCapture(a.originalEvent.changedTouches[0])&&(e=!0,b._touchMoved=!1,f(a,"mouseover"),f(a,"mousemove"),f(a,"mousedown"))},b._touchMove=function(a){e&&(this._touchMoved=!0,f(a,"mousemove"))},b._touchEnd=function(a){e&&(f(a,"mouseup"),f(a,"mouseout"),this._touchMoved||f(a,"click"),e=!1)},b._mouseInit=function(){var b=this;b.element.bind({touchstart:a.proxy(b,"_touchStart"),touchmove:a.proxy(b,"_touchMove"),touchend:a.proxy(b,"_touchEnd")}),c.call(b)},b._mouseDestroy=function(){var b=this;b.element.unbind({touchstart:a.proxy(b,"_touchStart"),touchmove:a.proxy(b,"_touchMove"),touchend:a.proxy(b,"_touchEnd")}),d.call(b)}}}(jQuery);
+    </script>
+  </head>
+
+  <body>
+    <div class="container">
+        <div class="container_event" style="z-index: 5; position: absolute">
+           <video src="playable_vertical_1(1).mp4" class="video" id="video" type="video/mp4" style="z-index: 0; top: 0; left: 0; height: 0%: position: absolute; object-fit: contain"></video>""
+           <!--버튼만-->
+           <div class="appdown" style="z-index: 10; top:77%; left:31%; width: 100%; height: 23%; position: absolute">
+             <a href = "https://play.google.com/store/apps/details?id=com.ftt.boxingstar.gl.aos&hl=ko">
+               <img id="appdown_img" src="download_button-mini.png" style="z-index: 10" width="auto" hiehgt="100%">
+             </a>
+           </div>
+           <!--전체 png
+           <div class="appdown" style="z-index: 6; top:0%; left:0%; width: inherit; height: 100%; position: absolute">
+             <img id="appdown_img" src="download_button.png" style="z-index: 6; top: 0%; left: 0%; height: 100%; position: absolute">
+             <a href = "https://play.google.com/store/apps/details?id=com.ftt.boxingstar.gl.aos&hl=ko">
+             <button id="appdown_bnt" style="background-color: rgba(255, 255, 255, 0); z-index: 10; top: 84%; left: 12%; width: 63%; height: 10%; position: absolute; border-style: hidden"></button>
+             </a>
+           </div>-->
+           <!--전체 jpg
+           <div class="appdown" style="z-index: 6; top:0%; left:0%; width: inherit; height: 100%; position: absolute">
+             <a href = "https://play.google.com/store/apps/details?id=com.ftt.boxingstar.gl.aos&hl=ko">
+               <img id="appdown_img" src="download_button.jpg" style="z-index: 6; top: 0%; left: 0%; height: 100%; position: absolute">
+               <button id="appdown_bnt" style="background-color: rgba(255, 255, 255, 0); z-index: 10; top: 84%; left: 12%; width: 63%; height: 10%; position: absolute; border-style: hidden"></button>
+             </a>
+           </div>-->
+         </div>
+  </body>
+</html>
