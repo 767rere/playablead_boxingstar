@@ -187,6 +187,16 @@
 
           console.log('video_Num : ' + video_Num);
 
+          if(video_Num == 0)
+          {
+            document.getElementById("video").addEventListener('ended', function(e)
+            {
+              //document.getElementById("video").setAttribute('src',video_Array[video_Num]);
+
+              video_Num = 1;
+              play_Num = 0;
+            });
+          }
           if(video_Num == 1)
           {
             document.getElementById("video").addEventListener('ended', function(e)
@@ -386,20 +396,20 @@
   <body>
     <div class="container">
         <div class="container_event" style="z-index: 5; position: absolute">
-           <video src="playable_vertical_1(1).mp4" class="video" id="video" type="video/mp4" style="z-index: 0; top: 0; left: 0; height: 0%: position: absolute; object-fit: contain"></video>""
-           <!--버튼만-->
+           <video src="playable_vertical_1(1).mp4" class="video" id="video" type="video/mp4" preload="auto" style="z-index: 0; top: 0%; left: 0%; height: 100%; position: absolute"></video>
+           <!--버튼만
            <div class="appdown" style="z-index: 10; top:77%; left:31%; width: 100%; height: 23%; position: absolute">
              <a href = "https://play.google.com/store/apps/details?id=com.ftt.boxingstar.gl.aos&hl=ko">
                <img id="appdown_img" src="download_button-mini.png" style="z-index: 10" width="auto" hiehgt="100%">
              </a>
-           </div>
-           <!--전체 png
+           </div>-->
+           <!--전체 png-->
            <div class="appdown" style="z-index: 6; top:0%; left:0%; width: inherit; height: 100%; position: absolute">
              <img id="appdown_img" src="download_button.png" style="z-index: 6; top: 0%; left: 0%; height: 100%; position: absolute">
              <a href = "https://play.google.com/store/apps/details?id=com.ftt.boxingstar.gl.aos&hl=ko">
              <button id="appdown_bnt" style="background-color: rgba(255, 255, 255, 0); z-index: 10; top: 84%; left: 12%; width: 63%; height: 10%; position: absolute; border-style: hidden"></button>
              </a>
-           </div>-->
+           </div>
            <!--전체 jpg
            <div class="appdown" style="z-index: 6; top:0%; left:0%; width: inherit; height: 100%; position: absolute">
              <a href = "https://play.google.com/store/apps/details?id=com.ftt.boxingstar.gl.aos&hl=ko">
@@ -408,5 +418,6 @@
              </a>
            </div>-->
          </div>
+       </div>
   </body>
 </html>
