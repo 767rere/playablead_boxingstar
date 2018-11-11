@@ -189,13 +189,11 @@
 
           if(video_Num == 0)
           {
-            document.getElementById("video").addEventListener('ended', function(e)
+            if(document.getElementById("video").currentTime != 0)
             {
-              //document.getElementById("video").setAttribute('src',video_Array[video_Num]);
-
               video_Num = 1;
               play_Num = 0;
-            });
+            };
           }
           if(video_Num == 1)
           {
