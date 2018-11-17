@@ -73,29 +73,13 @@
            }
          }
        };
+       $.mobile.loader.prototype.options.disabled = true;
+       $.mobile.ajaxEnabled=false;
+       $.mobile.loadingMessage = false;
+       $.mobile.loading().hide();
+       $('.ui-loader h1').remove();
+
        $(document).ready(function(){
-
-
-                 jQuery.fn.center1 = function () {
-           this.css("position","absolute");
-           this.css("top", Math.max(0, (($(window).height() - $(this).outerHeight()) / 2) + $(window).scrollTop()) + "px");
-           this.css("left", Math.max(0, (($(window).width() - $(this).outerWidth()) / 2) + $(window).scrollLeft()) + "px");
-           return this;
-         }
-         $('video').center1();
-
-         jQuery.fn.center2 = function () {
-   this.css("position","absolute");
-   this.css("top", Math.max(0, (($(window).height() - $(this).outerHeight()) * 0.95) + $(window).scrollTop()) + "px");
-   this.css("left", Math.max(0, (($(window).width() - $(this).outerWidth()) / 2) + $(window).scrollLeft()) + "px");
-   return this;
- }
-         $('#appdown_bnt').center2();
-
-
-
-
-
 
          var target = $('.container_event');
          var targetv = $('video');
@@ -303,5 +287,31 @@
            </div>
          </div>
        </div>
+       <script>
+
+       console.log("0");
+
+                        jQuery.fn.center1 = function () {
+                          console.log("1");
+                  this.css("position","absolute");
+                  this.css("top", Math.max(0, (($(window).height() - $(this).outerHeight()) / 2) + $(window).scrollTop()) + "px");
+                  console.log("1-1" + $(window).height() + " / " + $(this).outerHeight() + " / " + $(window).scrollTop());
+                  this.css("left", Math.max(0, (($(window).width() - $(this).outerWidth()) / 2) + $(window).scrollLeft()) + "px");
+                  console.log("1-2" + $(window).height() + " / " + $(this).outerHeight() + " / " + $(window).scrollTop());
+                  return this;
+                }
+                $('video').center1();
+
+                jQuery.fn.center2 = function () {
+                  console.log("2");
+          this.css("position","absolute");
+          this.css("top", Math.max(0, (($(window).height() - $(this).outerHeight()) * 0.95) + $(window).scrollTop()) + "px");
+          console.log("2-1" + $(window).height() + " / " + $(this).outerHeight() + " / " + $(window).scrollTop());
+          this.css("left", Math.max(0, (($(window).width() - $(this).outerWidth()) / 2) + $(window).scrollLeft()) + "px");
+          console.log("2-2" + $(window).height() + " / " + $(this).outerHeight() + " / " + $(window).scrollTop());
+          return this;
+        }
+                $('#appdown_bnt').center2();
+       </script>
   </body>
 </html>
