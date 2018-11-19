@@ -25916,7 +25916,6 @@
          video_Array5.load();
          video_Array6.load();
 
-         video_Array1.play();
 
          target.on('swiperight',function(){
            onlytap = false;
@@ -25974,20 +25973,6 @@
          });
          setInterval(function(){
            if(video_Num == 0){
-             if(video_Array1 == null)
-             {
-               video_Array1.load();
-             }
-             else{
-               if(video_Array1.currentTime != 0){
-                 video_Array1.style.display = "block";
-                 video_Num = 1;
-                 play_Num = 0;
-               }
-               else{
-                 video_Array1.play();
-               }
-             }
            }
            else if(video_Num == 1){
              video_Array1.addEventListener('ended', function(e){
