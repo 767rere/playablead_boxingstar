@@ -25956,7 +25956,6 @@
            if(onlytap){
              if( video_Num == 0 ){
                if(video_Array1 == null){
-                 video_Array1.load();
                }
                else{
                  video_Num = 1;
@@ -25973,10 +25972,19 @@
          });
          setInterval(function(){
            if(video_Num == 0){
-             if(video_Array1.currentTime != 0){
-               video_Array1.style.display = "block";
-               video_Num = 1;
-               play_Num = 0;
+             if(video_Array1 == null)
+             {
+               video_Array1.load();
+             }
+             else{
+               if(video_Array1.currentTime != 0){
+                 video_Array1.style.display = "block";
+                 video_Num = 1;
+                 play_Num = 0;
+               }
+               else{
+                 video_Array1.play();
+               }
              }
            }
            else if(video_Num == 1){
@@ -26024,6 +26032,8 @@
              bnt.setAttribute('width',video_Array6.videoWidth);
              document.getElementById('appdown_bnt').setAttribute('style:width',video_Array6.Width);
            }
+         },1);
+         setInterval(function(){
            if(video_Num == 5){
              if(button_size == true){
                button_x -= 0.001;
