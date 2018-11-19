@@ -25977,6 +25977,7 @@
            if(video_Num == 0){
              if(video_Array1 == null)
              {
+               video_Array1.load();
              }
              else{
                if(video_Array1.currentTime == 0){
@@ -25992,6 +25993,7 @@
            else if(video_Num == 1){
              video_Array1.addEventListener('ended', function(e){
                if(video_Array2 == null){
+                 video_Array2.load();
                }
                else{
                  video_Num = 2;
